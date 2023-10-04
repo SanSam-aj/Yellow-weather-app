@@ -9,7 +9,7 @@ border-radius: 5px;
 }
 .weather-app-wrapper{
     max-width: 600px;
-    margin: 30px auto;
+    margin: 50px;
 }
 h1{
     color: #878787;
@@ -24,6 +24,7 @@ ul{
 }
 li{
     list-style: none;
+    text-transform: capitalize;
     margin: 0;
     padding: 0;
     color: rgb(135, 135, 135);
@@ -32,7 +33,7 @@ li{
     line-height: 19px;
 }
 .row{
-    text-align: center;
+    text-align: left;
     font-weight: 100;
     font-size: 25px;
 }
