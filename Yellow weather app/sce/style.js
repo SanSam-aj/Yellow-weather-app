@@ -22,9 +22,12 @@ function displayTemperature(response) {
   let windElement = document.querySelector("#wind");
   let pressureElement = document.querySelector("#pressure");
   let dateElement = document.querySelector("#date");
+  let iconElement = document.querySelector("#icon");
 
   let celsiusTemperature = response.data.temperature.current;
   let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+
+
   temperatureElement.innerHTML = Math.round(celsiusTemperature);
   cityElement.innerHTML = response.data.city;
   descriptionElement.innerHTML = response.data.condition.description;
@@ -33,12 +36,27 @@ function displayTemperature(response) {
   pressureElement.innerHTML = response.data.temperature.pressure;
   dateElement.innerHTML = formatDate(response.data.time * 1000);
 
-  let iconUrl = response.data.condition.icon;
-  let iconElement = document.querySelector("#icon")
+  let iconUrl = response.data.condition.icon_url;
   iconElement.setAttribute("src", iconUrl);
 
   console.log(iconUrl);
+
+  let celsiusLink = document.querySelector("#celsius-link");
+  let fahrenheitLink = document.querySelector("#fahrenheit-link");
+
+  celsiusLink.addEventListener("click", function() {
+    temperatureElement.innerHTML = Math.round(celsiusTemperature);
+    celsiusLink.classList.add("active");
+    fahrenheitLink.classList.remove("active");
+  });
+
+  fahrenheitLink.addEventListener("click", function() {
+    temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
+    fahrenheitLink.classList.add("active");
+    celsiusLink.classList.remove("active");
+  });
 }
+
 
 function search(city) {
   let apiKey = "o7e846044ae3ef483ab380t172bfa741";
@@ -52,38 +70,7 @@ function handleSubmit(event) {
   search(cityInputElement.value);
 }
 
-function displayFahrenheitTemperature(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-
-  fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
-
-  temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
-
-  celsiusLink.classList.remove("active");
-  fahrenheitLink.classList.add("active");
-}
-
-function displayCelsiusTemperature(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-
-  temperatureElement.innerHTML = Math.round(celsiusTemperature);
-
-  celsiusLink.classList.add("active");
-  fahrenheitLink.classList.remove("active");
-}
-
-let fahrenheitTemperature = null;
-let celsiusTemperature = null;
-
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
-
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
-
-let celsiusLink = document.querySelector("#celsius-link");
-celsiusLink.addEventListener("click", displayCelsiusTemperature);
 
 search("Lagos");
