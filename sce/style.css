@@ -45,6 +45,20 @@ h1{
     display: flex;
     align-items: center;
 }
+.weather-forecast {
+    margin-top: 5px;
+    text-align: center;
+}
+.weather-forecast-temperature {
+    font-size: 13px;
+}
+.weather-forecast-date{
+    font-size: 10px;
+    opacity: 0.5;
+}
+.weather-forecast-temperature-min {
+    opacity: 0.5;
+}
 .weather-temperature #temperature{
     font-size: 80px;
     font-weight: bold;
@@ -53,6 +67,9 @@ h1{
 .weather-temperature .temperature {
     display: flex;
     align-items: center;
+}
+.weather-forecast-date {
+    font-size: 10px;;
 }
 .weather-icon {
     margin: auto;
