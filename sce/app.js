@@ -13,6 +13,31 @@ function formatDate(timestamp) {
   return `${day}  ${hours}:${minutes}`;
 }
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = `<div class="row">`;
+
+  let days = ["Thu", "Fri", "Sat", "Sun"];
+
+  days.forEach(function (day) {
+    forecastHTML += `
+      <div class="col-3">
+        <div class="weather-forecast-date">${day}</div>
+        <img src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-day.png" alt="" width="36"/>
+        <div class="weather-forecast-temperature">
+          <span class="weather-forecast-temperature-max">18°</span>
+          <span class="weather-forecast-temperature-min">12°</span>
+        </div>
+      </div>
+    `;
+  });
+
+  forecastHTML += `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+
 function displayTemperature(response) {
   console.log(response.data);
   let temperatureElement = document.querySelector("#temperature");
@@ -74,3 +99,4 @@ let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
 search("Lagos");
+displayForecast();
