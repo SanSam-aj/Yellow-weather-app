@@ -13,21 +13,26 @@ function formatDate(timestamp) {
   return `${day}  ${hours}:${minutes}`;
 }
 
-function displayForecast() {
-  let forecastElement = document.querySelector("#forecast");
+function displayForecast(response) {
+let forecast = response.data.daily;
+let forecastElement = document.querySelector("#forecast");
+ let forecastHTML = `<div class="row">`;
 
-  let forecastHTML = `<div class="row">`;
 
-  let days = ["Thu", "Fri", "Sat", "Sun"];
+forecast.forEach(function (forecastDay) {
+let maxTemperature = Math.round(forecastDay.temp.max);
+let minTemperature = Math.round(forecastDay.temp.min);
 
-  days.forEach(function (day) {
-    forecastHTML += `
+let iconUrl = forecastDay.weather[0].icon;
+
+
+    forecastHTML = forecastHTML + `
       <div class="col-3">
-        <div class="weather-forecast-date">${day}</div>
-        <img src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-day.png" alt="" width="36"/>
+        <div class="weather-forecast-date">${forecastDay.dt * 1000}</div>
+        <img src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${iconUrl}.png" alt="" width="36"/>
         <div class="weather-forecast-temperature">
-          <span class="weather-forecast-temperature-max">18°</span>
-          <span class="weather-forecast-temperature-min">12°</span>
+          <span class="weather-forecast-temperature-max">${forecastDay.temp.max}°</span>
+          <span class="weather-forecast-temperature-min">${forecastDay.temp.min}°</span>
         </div>
       </div>
     `;
@@ -86,9 +91,11 @@ function displayTemperature(response) {
 function search(city) {
   let apiKey = "o7e846044ae3ef483ab380t172bfa741";
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayTemperature);
+  axios.get(apiUrl).then(function (response) {
+    displayTemperature(response);
+    displayForecast(response);
+  });
 }
-
 function handleSubmit(event) {
   event.preventDefault();
   let cityInputElement = document.querySelector("#city-input");
@@ -99,4 +106,3 @@ let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
 search("Lagos");
-displayForecast();
