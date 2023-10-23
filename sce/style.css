@@ -3,10 +3,10 @@ body{
 }
 .weather-app {
     margin: 50px;
-    max-width: 90%;
-    width: 90%;
+    max-width: 200%;
+    width: 120%;
     padding: 10px;
-    height: 400px;
+    height: 500px;
     border: 1px solid #dadde1;
     border-radius: 5px;
     flex-direction: column;

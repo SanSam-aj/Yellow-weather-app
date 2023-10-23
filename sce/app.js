@@ -8,24 +8,29 @@ function formatDate(timestamp) {
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
-  let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  let day = days[date.getDay()];
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu"];
+  let day = days[date.getDay() -1];
   return `${day} ${hours}:${minutes}`;
+
 }
 
+
 function displayForecast(response) {
-  let forecastData = response.data;
+  let forecastData = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
 
   if (forecastData && forecastData.length > 0) {
-    forecastData.forEach(function (forecastDay) {
-      let maxTemperature = Math.round(forecastDay.max_temp);
-      let minTemperature = Math.round(forecastDay.min_temp);
-      let iconUrl = forecastDay.weather.icon;
-      let timestamp = forecastDay.ts * 1000;
+    forecastData.forEach(function (forecastDay, index) {
+      if (index < 4) {}
+      let maxTemperature = Math.round(forecastDay.temperature.maximum);
+      let minTemperature = Math.round(forecastDay.temperature.minimum);
+      let iconUrl = forecastDay.condition.icon;
+      let timestamp = forecastDay.time * 1000;
       let date = new Date(timestamp);
-      let dayOfWeek = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
+      let dayOfWeek = new Intl.DateTimeFormat("en-US", {
+        weekday: "short",
+      }).format(date);
 
       forecastHTML += `
         <div class="col-3">
@@ -45,7 +50,6 @@ function displayForecast(response) {
   forecastHTML += `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
-
 
 function displayTemperature(response) {
   console.log(response.data);
@@ -98,7 +102,7 @@ function search(city) {
 
 function getForecast(coordinates) {
   let apiKey = "o7e846044ae3ef483ab380t172bfa741";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&key=${apiKey}&units=metric`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${coordinates.latitude}&lon=${coordinates.longitude}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
 
